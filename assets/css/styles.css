@@ -152,6 +152,12 @@ button { font: inherit; cursor: pointer; }
   color: #fff; overflow: hidden; background: var(--ink);
 }
 .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-video { pointer-events: none; }
+/* Oculta el botón de play nativo (iPhone/Android) si el teléfono bloquea la reproducción automática */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; opacity: 0; }
 .hero-overlay {
   position: absolute; inset: 0;
   background:

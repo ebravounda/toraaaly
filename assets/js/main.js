@@ -75,21 +75,63 @@ const CONFIG = {
   }
 
   /* Video del hero: se reproduce solo (silenciado) en computador y celular.
-     En celulares usa una versión vertical liviana (1,9 MB). Se carga después de
-     la página para no retrasarla, y no se carga con "ahorro de datos" activado
-     ni si el usuario pidió reducir movimiento: en esos casos queda la imagen. */
+     - En celulares usa una versión vertical liviana (1,9 MB).
+     - Los navegadores móviles solo permiten la reproducción automática si el video
+       está silenciado y "en línea", por eso se fuerzan muted y playsinline.
+     - Si el teléfono la bloquea (por ejemplo, iPhone en modo de bajo consumo), se
+       vuelve a intentar con el primer toque o desplazamiento; mientras tanto se ve
+       la imagen fija, sin botón de play (ver CSS).
+     - No se carga con "ahorro de datos" ni si el usuario pidió reducir movimiento. */
   const heroVideo = document.querySelector(".hero-video[data-src]");
   if (heroVideo) {
     const saveData = navigator.connection && navigator.connection.saveData;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!saveData && !reduce) {
-      const startVideo = () => {
-        const mobile = window.matchMedia("(max-width: 767px)").matches && heroVideo.dataset.srcMobile;
-        heroVideo.src = mobile ? heroVideo.dataset.srcMobile : heroVideo.dataset.src;
-        heroVideo.play().catch(() => {});
+      const v = heroVideo;
+      v.muted = true;
+      v.defaultMuted = true;
+      v.playsInline = true;
+      v.setAttribute("muted", "");
+      v.setAttribute("playsinline", "");
+      v.setAttribute("webkit-playsinline", "");
+
+      const tryPlay = () => {
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {});
       };
+      let started = false;
+      const startVideo = () => {
+        if (started) return;
+        started = true;
+        const mobile = window.matchMedia("(max-width: 767px)").matches && v.dataset.srcMobile;
+        v.preload = "auto";
+        v.src = mobile ? v.dataset.srcMobile : v.dataset.src;
+        v.load();
+        tryPlay();
+      };
+      v.addEventListener("canplay", () => { if (v.paused) tryPlay(); });
+      v.addEventListener("playing", () => v.classList.add("is-playing"));
+
+      // Empieza al terminar de cargar la página (o a los 1,5 s, lo que ocurra primero)
       if (document.readyState === "complete") startVideo();
-      else window.addEventListener("load", startVideo, { once: true });
+      else {
+        window.addEventListener("load", startVideo, { once: true });
+        setTimeout(startVideo, 1500);
+      }
+
+      // Reintento con la primera interacción (necesario en algunos teléfonos)
+      const retry = () => {
+        startVideo();
+        if (v.paused) tryPlay();
+        if (!v.paused) ["touchstart", "click", "scroll", "keydown"].forEach((ev) => window.removeEventListener(ev, retry));
+      };
+      ["touchstart", "click", "scroll", "keydown"].forEach((ev) =>
+        window.addEventListener(ev, retry, { passive: true })
+      );
+      // Al volver a la pestaña, retomar
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible" && v.paused && started) tryPlay();
+      });
     }
   }
 
