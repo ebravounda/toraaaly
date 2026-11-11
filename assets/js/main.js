@@ -7,7 +7,7 @@
    internacional, sin "+", espacios ni guiones. Ej: 56912345678
 --------------------------------------------------------------------- */
 const CONFIG = {
-  WHATSAPP_NUMBER: "56900000000",
+  WHATSAPP_NUMBER: "56934594694",
   WHATSAPP_DEFAULT_MESSAGE: "Hola TORAL, me gustaría cotizar un proyecto.",
 };
 

@@ -15,7 +15,7 @@ robots.txt, sitemap.xml
 
 ## Antes de publicar
 
-1. **Número de WhatsApp**: en `assets/js/main.js`, cambia `WHATSAPP_NUMBER` (formato `569XXXXXXXX`, sin `+` ni espacios). Lo usan el botón flotante, los botones "Contactar por WhatsApp" y el formulario de cotización.
+1. **Número de WhatsApp** (configurado: +56 9 3459 4694): para cambiarlo, edita `WHATSAPP_NUMBER` en `assets/js/main.js` (formato `569XXXXXXXX`, sin `+` ni espacios). Lo usan el botón flotante, los botones "Contactar por WhatsApp" y el formulario de cotización.
 2. Sube todo el contenido de la carpeta a la raíz del dominio `toralpyc.cl`.
 
 ## Agregar proyectos a la galería
