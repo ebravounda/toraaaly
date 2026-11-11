@@ -23,7 +23,7 @@ const CONFIG = {
 
   /* Enlaces de WhatsApp */
   document.querySelectorAll(".js-whatsapp").forEach((a) => {
-    a.href = waUrl(CONFIG.WHATSAPP_DEFAULT_MESSAGE);
+    a.href = waUrl(a.dataset.waMessage || document.body.dataset.waMessage || CONFIG.WHATSAPP_DEFAULT_MESSAGE);
   });
 
   /* Header al hacer scroll */
@@ -46,7 +46,7 @@ const CONFIG = {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setNav(false); });
 
   /* Sección activa en el menú */
-  const navLinks = [...nav.querySelectorAll("ul a")];
+  const navLinks = [...nav.querySelectorAll('ul a[href^="#"]')];
   const sections = navLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
   if ("IntersectionObserver" in window) {
     const spy = new IntersectionObserver((entries) => {
@@ -74,11 +74,23 @@ const CONFIG = {
     reveals.forEach((el) => el.classList.add("is-visible"));
   }
 
-  /* Video del hero: no reproducir si el usuario prefiere menos movimiento */
-  const heroVideo = document.querySelector(".hero-video");
-  if (heroVideo && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    heroVideo.removeAttribute("autoplay");
-    heroVideo.pause();
+  /* Video del hero: se reproduce solo (silenciado) en computador y celular.
+     En celulares usa una versión vertical liviana (1,9 MB). Se carga después de
+     la página para no retrasarla, y no se carga con "ahorro de datos" activado
+     ni si el usuario pidió reducir movimiento: en esos casos queda la imagen. */
+  const heroVideo = document.querySelector(".hero-video[data-src]");
+  if (heroVideo) {
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!saveData && !reduce) {
+      const startVideo = () => {
+        const mobile = window.matchMedia("(max-width: 767px)").matches && heroVideo.dataset.srcMobile;
+        heroVideo.src = mobile ? heroVideo.dataset.srcMobile : heroVideo.dataset.src;
+        heroVideo.play().catch(() => {});
+      };
+      if (document.readyState === "complete") startVideo();
+      else window.addEventListener("load", startVideo, { once: true });
+    }
   }
 
   /* Pestañas de servicios */
@@ -130,6 +142,7 @@ const CONFIG = {
 
   /* Lightbox */
   const lb = document.getElementById("lightbox");
+  if (lb) {
   const lbImg = lb.querySelector("img");
   const lbCap = lb.querySelector("figcaption");
   let current = 0;
@@ -171,15 +184,19 @@ const CONFIG = {
     if (e.key === "ArrowLeft") show(current - 1);
     if (e.key === "ArrowRight") show(current + 1);
   });
+  }
 
   /* Botones que preseleccionan el tipo de servicio en el formulario */
   const serviceSelect = document.getElementById("servicio");
-  document.querySelectorAll("[data-service]").forEach((btn) => {
-    btn.addEventListener("click", () => { serviceSelect.value = btn.dataset.service; });
-  });
+  if (serviceSelect) {
+    document.querySelectorAll("[data-service]").forEach((btn) => {
+      btn.addEventListener("click", () => { serviceSelect.value = btn.dataset.service; });
+    });
+  }
 
   /* Formulario → WhatsApp */
   const form = document.getElementById("contact-form");
+  if (!form) return;
   const errorBox = form.querySelector(".form-error");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
