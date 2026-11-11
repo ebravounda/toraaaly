@@ -8,7 +8,7 @@ Sitio web de [www.toralpyc.cl](https://www.toralpyc.cl). Es un sitio estático (
 index.html            Página principal (todas las secciones)
 assets/css/styles.css Estilos
 assets/js/main.js     Menú, pestañas, filtro de proyectos, lightbox y formulario
-assets/img/           Fotografías (versiones 800 px y 1600 px)
+assets/img/           Logo (SVG claro/oliva y PNG) y fotografías (800 px y tamaño grande)
 assets/video/         Video de renders 3D (fondo del inicio y sección 3D)
 robots.txt, sitemap.xml
 ```
