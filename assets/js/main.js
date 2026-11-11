@@ -202,7 +202,7 @@ const CONFIG = {
     e.preventDefault();
     let valid = true;
     form.querySelectorAll("[required]").forEach((field) => {
-      const ok = field.value.trim() !== "";
+      const ok = field.type === "checkbox" ? field.checked : field.value.trim() !== "";
       field.classList.toggle("is-invalid", !ok);
       if (!ok) valid = false;
     });
@@ -226,6 +226,6 @@ const CONFIG = {
     window.open(waUrl(lines.join("\n")), "_blank", "noopener");
   });
   form.querySelectorAll("input, textarea").forEach((f) =>
-    f.addEventListener("input", () => f.classList.remove("is-invalid"))
+    f.addEventListener(f.type === "checkbox" ? "change" : "input", () => f.classList.remove("is-invalid"))
   );
 })();

@@ -375,6 +375,25 @@ button { font: inherit; cursor: pointer; }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: none; border-color: var(--sand-strong); background: #fff; }
 .contact-form .is-invalid { border-color: #b4452f; }
 .form-error { color: #b4452f; font-size: 14px; margin: 0; }
+.contact-form .consent { flex-direction: row; align-items: flex-start; gap: 12px; cursor: pointer; }
+.contact-form .consent input { width: 20px; height: 20px; flex: 0 0 20px; margin: 2px 0 0; padding: 0; accent-color: var(--olive); }
+.contact-form .consent span { font-size: 14px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); line-height: 1.5; }
+.contact-form .consent a { color: var(--olive); }
+.contact-form .consent input.is-invalid { outline: 2px solid #b4452f; outline-offset: 2px; }
+
+/* Páginas legales */
+.legal-hero { background: var(--ink); color: #fff; padding: calc(var(--header-h) + 70px) 0 60px; }
+.legal-hero h1 { font-size: clamp(36px, 5vw, 62px); letter-spacing: -.03em; margin-bottom: 14px; }
+.legal-hero p { color: rgba(255,255,255,.7); margin: 0; }
+.legal-body { max-width: 820px; }
+.legal-body h2 { font-size: clamp(22px, 2.2vw, 28px); margin: 48px 0 16px; letter-spacing: -.01em; }
+.legal-body h2:first-child { margin-top: 0; }
+.legal-body p, .legal-body li { color: #45443f; }
+.legal-body ul { list-style: disc; padding-left: 22px; margin: 0 0 1.1em; }
+.legal-body li { margin-bottom: 8px; }
+.legal-body a { color: var(--olive); }
+.legal-body .note { background: var(--paper-2); border-left: 3px solid var(--olive); padding: 18px 22px; border-radius: var(--radius); }
+.dato-pendiente { background: #fff3b0; padding: 0 4px; border-radius: 2px; }
 .contact-form .fine-print { margin: 0; text-align: center; }
 
 /* Footer */
@@ -395,6 +414,9 @@ button { font: inherit; cursor: pointer; }
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
 }
 .footer-bottom p { margin: 0; }
+.legal-links { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.legal-links a { text-decoration: none; transition: color .3s; }
+.legal-links a:hover { color: #fff; }
 .credits a { color: #fff; text-decoration: none; border-bottom: 1px solid var(--line-light); transition: border-color .3s; }
 .credits a:hover { border-color: var(--sand); }
 .heart { display: inline-block; color: #e0245e; font-size: 11px; margin: 0 2px; animation: heartbeat 1.2s ease-in-out infinite; }

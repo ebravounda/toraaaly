@@ -10,6 +10,8 @@ paisajismo/           Página: Paisajismo y diseño de jardines
 mantencion-de-jardines/  Página: Mantención de jardines y áreas verdes
 construccion/         Página: Construcción de quinchos, terrazas y piscinas
 diseno-y-planificacion/  Página: Diseño, master plan y renders 3D
+politica-de-privacidad/  Política de Privacidad (Ley 19.628 y Ley 21.719)
+terminos-y-condiciones/  Términos y Condiciones
 assets/css/styles.css Estilos
 assets/js/main.js     Menú, pestañas, filtro de proyectos, lightbox y formulario
 assets/img/           Logo (SVG claro/oliva y PNG) y fotografías (800 px y tamaño grande)
@@ -22,6 +24,12 @@ robots.txt, sitemap.xml, favicon.ico
 
 1. **Número de WhatsApp** (configurado: +56 9 3459 4694): para cambiarlo, edita `WHATSAPP_NUMBER` en `assets/js/main.js` (formato `569XXXXXXXX`, sin `+` ni espacios). Lo usan el botón flotante, los botones "Contactar por WhatsApp" y el formulario de cotización.
 2. Sube todo el contenido de la carpeta a la raíz del dominio `toralpyc.cl`.
+
+## Datos legales pendientes
+
+En `politica-de-privacidad/index.html` y `terminos-y-condiciones/index.html` hay datos resaltados en amarillo
+(`class="dato-pendiente"`): razón social, RUT, domicilio y correo. Reemplaza cada `<span class="dato-pendiente">[...]</span>`
+por el dato real antes de publicar.
 
 ## Agregar proyectos a la galería
 
